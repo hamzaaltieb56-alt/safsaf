@@ -105,7 +105,7 @@ document.getElementById('drawForm').addEventListener('submit', async function (e
             submitButton.textContent = 'تم الإرسال بنجاح ✅';
 
             setTimeout(() => {
-                window.location.href = 'https://www.facebook.com/SudaniSudan';
+                window.location.href = 'https://web.facebook.com/SUDANI.SD';
             }, 4000);
         } else {
             messageDiv.textContent = data.message || 'حدث خطأ، حاول مرة أخرى';

