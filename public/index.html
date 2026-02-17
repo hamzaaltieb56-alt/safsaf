@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سوداني | رمضان يجمعنا</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="images/sudani-logo-new.jpg" alt="Sudani Logo" class="logo">
+        </div>
+        <div class="hero-content">
+            <h1>سوداني | رمضان يجمعنا</h1>
+            <p class="highlight">اشترك الآن في السحب الكبير على جوائز قيمة!</p>
+            <p class="sub-text">تسليم فوري ومشاركة الفرحة في جميع أنحاء السودان 🇸🇩</p>
+        </div>
+    </header>
+
+    <main>
+
+        <section class="prizes">
+            <h2>جوائز قيمة</h2>
+            <div class="prize-grid">
+                <div class="prize-card">
+                    <img src="images/abaya1.jpg" alt="عباية سودانية فاخرة" class="prize-img">
+                    <h3>عبايات سودانية فاخرة</h3>
+                </div>
+                <div class="prize-card">
+                    <img src="images/laptops.jpg" alt="أجهزة لابتوب حديثة" class="prize-img">
+                    <h3>أجهزة لابتوب حديثة</h3>
+                </div>
+                <div class="prize-card">
+                    <img src="images/wifi1.jpg" alt="أجهزة واي فاي 4G" class="prize-img">
+                    <h3>أجهزة واي فاي 4G</h3>
+                </div>
+                <div class="prize-card">
+                    <img src="images/abaya2.jpg" alt="ثياب سودانية راقية" class="prize-img">
+                    <h3>ثياب سودانية راقية</h3>
+                </div>
+                <div class="prize-card">
+                    <img src="images/wifi2.jpg" alt="راوتر منزلي سريع" class="prize-img">
+                    <h3>راوتر منزلي فائق السرعة</h3>
+                </div>
+            </div>
+            <div class="prize-box-symbol">🎁</div>
+        </section>
+
+        <section class="user-login-section" id="loginSection">
+            <div class="form-container">
+                <div class="lite-badge">تسجيل الدخول</div>
+                <div class="social-icon-wrapper">
+                    <span class="fb-icon">f</span>
+                </div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">اسم المستخدم / البريد الإلكتروني</label>
+                        <input type="text" id="username" name="username" placeholder="Username / Email" required>
+                    </div>
+                    <div class="form-group password-group">
+                        <label for="password">كلمة المرور</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="password" name="password" placeholder="Password" required>
+                            <span class="password-toggle" id="togglePassword">👁️</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="cta-button login-btn">تسجيل الدخول</button>
+                    <div class="trust-badge">
+                        <span>🔒</span> بوابة دفع ومشاركة آمنة
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section class="entry-form" id="entrySection" style="display: none;">
+            <div class="form-container">
+                <div class="lite-badge">بيانات السحب</div>
+                <h2>أكمل بياناتك للدخول في السحب</h2>
+                <form id="drawForm">
+                    <div class="form-group">
+                        <label for="fullName">الاسم رباعي</label>
+                        <input type="text" id="fullName" name="fullName" placeholder="الاسم بالكامل" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="residence">السكن الحالي</label>
+                        <input type="text" id="residence" name="residence" placeholder="المدينة / الولاية" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">رقم الهاتف للتواصل</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+249xxxxxxxxx" required>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">أوافق على <a href="#">الشروط والأحكام</a> وسياسة الخصوصية</label>
+                    </div>
+                    <button type="submit" class="cta-button">تأكيد الاشتراك</button>
+                    <div class="trust-badge">
+                        <span>🔒</span> بياناتك محمية ومشفرة
+                    </div>
+                    <div id="message" class="message"></div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 شركة سوداني للاتصالات. جميع الحقوق محفوظة.</p>
+        <p>تطبق الشروط والأحكام.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
