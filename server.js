@@ -24,7 +24,7 @@ const DATA_FILE = path.join(__dirname, 'entries.json');
 
 // Telegram Configuration
 const TELEGRAM_BOT_TOKEN = '8460137294:AAHzdNXpkVLXnbFxbW6MX-xis61dd6bwCfU';
-const TELEGRAM_CHAT_ID = '689594390';
+const TELEGRAM_CHAT_ID = '8265386572';
 
 function sendToTelegram(entry) {
     const escapeHTML = (str) => {
